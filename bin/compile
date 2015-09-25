@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+BUILD_DIR="$1"
+CACHE_DIR="$2"
+
+indent() {
+  set -u 's/^/       /'
+}
+
+version="$(git ls-remote --tags http://github.com/foca/mpp | tail -1 | sed -e 's:.*/v::')"
+download="https://github.com/foca/mpp/releases/download/v${version}/mpp-${version}.linux-amd64.tar.gz"
+archive="$CACHE_DIR/$(basename "$download")"
+
+echo "Downloading mpp v${version}" | indent
+
+wget -q -O "$archive" "$download"
+mkdir -p "$BUILD_DIR/bin"
+tar -xz -C "$BUILD_DIR/bin" -f "$archive" "mpp"
+
+echo "Running script/mpp" | indent
+
+cd "$BUILD_DIR"
+export PATH="$BUILD_DIR/bin:$PATH"
+exec script/mpp >/dev/null
