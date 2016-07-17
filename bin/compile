@@ -8,7 +8,7 @@ indent() {
 }
 
 version="$(git ls-remote --tags http://github.com/foca/mpp | tail -1 | sed -e 's:.*/v::')"
-download="https://github.com/foca/mpp/releases/download/v${version}/mpp-${version}.linux-amd64.tar.gz"
+download="https://github.com/foca/mpp/releases/download/v${version}/mpp-${version}_linux-amd64.tar.gz"
 archive="$CACHE_DIR/$(basename "$download")"
 
 echo "Downloading mpp v${version}" | indent
@@ -21,4 +21,4 @@ echo "Running script/mpp" | indent
 
 cd "$BUILD_DIR"
 export PATH="$BUILD_DIR/bin:$PATH"
-exec script/mpp >/dev/null
+exec script/mpp
